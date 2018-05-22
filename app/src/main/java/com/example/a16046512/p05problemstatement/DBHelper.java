@@ -115,7 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Song> getAllSongs(int year) {
+    public ArrayList<Song> getSong(int year) {
         ArrayList<Song> songs = new ArrayList<Song>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -141,14 +141,14 @@ public class DBHelper extends SQLiteOpenHelper {
         return songs;
     }
 
-    public ArrayList<Song> getAllSong() {
+    public ArrayList<Song> getAllStar() {
         ArrayList<Song> songs = new ArrayList<Song>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns= {COLUMN_ID, COLUMN_SONG_TITLE,COLUMN_SONG_SINGER,COLUMN_SONG_YEAR,COLUMN_SONG_STAR};
-        String condition = COLUMN_SONG_STAR + " =?  ";
-        String[] args = { " 5 "};
-        Cursor cursor = db.query(TABLE_SONG, columns, condition, args,
+        String condition = COLUMN_SONG_STAR + " = 5  ";
+//        String[] args = { " 5 "};
+        Cursor cursor = db.query(TABLE_SONG, columns, condition, null,
                 null, null, null, null);
         if (cursor.moveToFirst()) {
             do {

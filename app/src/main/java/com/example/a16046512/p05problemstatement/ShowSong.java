@@ -24,24 +24,39 @@ public class ShowSong extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_song);
+        getSupportActionBar().setTitle("P05-NDPSongs ~ Show Song");
         songlist = (ListView)findViewById(R.id.songlist);
         btnfilter = (Button)findViewById(R.id.btnfilter);
 
         song = dbh.getAllSongs();
         sa = new SongAdapter(ShowSong.this,R.layout.showsongrow,song);
         songlist.setAdapter(sa);
+
+
+
+        btnfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DBHelper dbh = new DBHelper(ShowSong.this);
+                song.clear();
+                song.addAll(dbh.getAllStar());
+                dbh.close();
+
+                sa.notifyDataSetChanged();
+
+            }
+        });
+
         songlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 Intent i = new Intent(ShowSong.this,ModifySong.class);
                 Song currentposition = song.get(pos);
+                i.putExtra("pos",currentposition);
                 startActivityForResult(i,9);
             }
         });
-
-
-
-
     }
 
     @Override
